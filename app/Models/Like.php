@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class Like
  *
  * @property int|null $id
- * @property int|null $answerId
- * @property int|null $userId
+ * @property int|null $answer_id
+ * @property int|null $user_id
  * @property string|null $uid
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
  */
 class Like extends Model
 {
@@ -38,17 +39,17 @@ class Like extends Model
     protected $table = 'like';
 
 	protected $casts = [
-		'answerId' => 'int',
-		'userId' => 'int'
+		'answer_id' => 'int',
+		'user_id' => 'int'
 	];
 
 	protected $fillable = [
-		'answerId',
-		'userId',
+		'answer_id',
+		'user_id',
 		'uid'
 	];
 
 	public function user(){
-	    return $this->belongsTo(User::class,'userId','id');
+	    return $this->belongsTo(User::class,'user_id','id');
     }
 }

@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Firebase\Guard;
 use Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,6 +29,5 @@ class AuthServiceProvider extends ServiceProvider
         Auth::viaRequest('firebase', function ($request) {
             return app(Guard::class)->user($request);
         });
-        //
     }
 }

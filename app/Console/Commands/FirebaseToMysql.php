@@ -65,8 +65,7 @@ class FirebaseToMysql extends Command
                 if ($key === "") continue;
                 $model = new User();
                 $model->uid = $userData['uid'];
-                $model->displayName = $userData['displayName'];
-                $model->token = $userData['token'];
+                $model->display_name = $userData['displayName'];
                 $model->email = $userData['email'];
                 $model->photoURL = $userData['photoURL'];
                 $model->save();
@@ -107,22 +106,22 @@ class FirebaseToMysql extends Command
 
                 if (isset($value['uid'])) {
 
-                    $userId = User::whereUid($value['uid'])->first()->id;
+                    $user_id = User::whereUid($value['uid'])->first()->id;
                     $answer = collect($value['answer']);
 
                     $version = $value['version'];
 
-                    $emotionId = null;
+                    $emotion_id = null;
                     if ($version < 4) {
                         $content = $answer->last();
                     } else {
-                        $emotionId = Emotion::whereUid($answer->get(0))->first()->id;
+                        $emotion_id = Emotion::whereUid($answer->get(0))->first()->id;
                         $content = $answer->get(1);
                     }
 
                     $model = new Answer();
-                    $model->userId = $userId;
-                    $model->emotionId = $emotionId;
+                    $model->user_id = $user_id;
+                    $model->emotion_id = $emotion_id;
                     $model->content = $content;
                     $model->uid = $key;
                     $model->created_at = Carbon::parse($value['created_at']['_seconds']);
@@ -144,12 +143,12 @@ class FirebaseToMysql extends Command
                     $answer = Answer::whereUid($answer_id)->first();
 
                     if ($answer && $user) {
-                        $answerId = $answer->id;
-                        $userId = $user->id;
+                        $answer_id = $answer->id;
+                        $user_id = $user->id;
 
                         $model = new Comment();
-                        $model->userId = $userId;
-                        $model->answerId = $answerId;
+                        $model->user_id = $user_id;
+                        $model->answer_id = $answer_id;
                         $model->content = $value['comment'];
                         $model->uid = $key;
                         $model->created_at = Carbon::parse($value['created_at']['_seconds']);
@@ -173,12 +172,12 @@ class FirebaseToMysql extends Command
                     $answer = Answer::whereUid($answer_id)->first();
 
                     if ($answer && $user) {
-                        $answerId = $answer->id;
-                        $userId = $user->id;
+                        $answer_id = $answer->id;
+                        $user_id = $user->id;
 
                         $model = new Like();
-                        $model->userId = $userId;
-                        $model->answerId = $answerId;
+                        $model->user_id = $user_id;
+                        $model->answer_id = $answer_id;
                         $model->uid = $key;
                         $model->created_at = Carbon::parse($value['created_at']['_seconds']);
                         $model->updated_at = Carbon::parse($value['created_at']['_seconds']);

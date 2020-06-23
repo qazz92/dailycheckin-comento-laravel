@@ -11,7 +11,3 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Sanctum
-Route::post('sanctum/token', 'SanctumController@token');
-Route::get('user/test','UserController@test');

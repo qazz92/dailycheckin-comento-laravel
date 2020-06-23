@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/me','UserController@me');
 
+    Route::get('/emotion','EmotionController@list');
+
     Route::get('/answer','AnswerController@list');
     Route::get('/answer/{id}','AnswerController@show');
     Route::post('/answer','AnswerController@create');

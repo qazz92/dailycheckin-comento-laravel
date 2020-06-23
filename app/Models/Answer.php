@@ -13,14 +13,20 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Answer
  *
- * @property int|null $id
- * @property int|null $emotionId
- * @property int|null $userId
- * @property string|null $content
+ * @property int $id
+ * @property int|null $emotion_id
+ * @property int $user_id
+ * @property string $content
  * @property string|null $uid
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @package App\Models
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comment
+ * @property-read int|null $comment_count
+ * @property-read \App\Models\Emotion|null $emotion
+ * @property-read mixed $is_like
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $like
+ * @property-read int|null $like_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Answer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Answer newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Answer query()
@@ -40,37 +46,43 @@ class Answer extends Model
 	protected $table = 'answer';
 
 	protected $casts = [
-		'emotionId' => 'int',
-		'userId' => 'int'
+		'emotion_id' => 'int',
+		'user_id' => 'int'
 	];
 
 	protected $fillable = [
-		'emotionId',
-		'userId',
+		'emotion_id',
+		'user_id',
 		'content',
 		'uid'
 	];
+
+	protected $hidden = ['uid'];
 
     protected $appends = ['is_like'];
 
     public function getIsLikeAttribute()
     {
-        $userId = 0;
+        $user_id = 0;
         if (auth()->check()) {
-            $userId = auth()->id();
+            $user_id = auth()->id();
         }
-        return $this->attributes['is_like'] = Like::whereAnswerId($this->id)->where('userId',$userId)->count() > 0;
+        return $this->attributes['is_like'] = Like::where('answer_id',$this->id)->where('user_id',$user_id)->count() > 0;
     }
 
-	public function like() {
-	    return $this->hasMany(Like::class,'answerId','id');
+    public function like() {
+        return $this->hasMany(Like::class,'answer_id','id');
     }
 
     public function comment() {
-	    return $this->hasMany(Comment::class,'answerId','id');
+        return $this->hasMany(Comment::class,'answer_id','id');
     }
 
     public function emotion() {
-	    return $this->hasOne(Emotion::class,'id','emotionId');
+        return $this->hasOne(Emotion::class,'id','emotion_id');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class,'user_id','id');
     }
 }

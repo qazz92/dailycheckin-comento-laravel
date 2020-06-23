@@ -20,10 +20,16 @@ class Guard
 
         try {
             $token = $this->verifier->verifyIdToken($token);
-            return new User($token->getClaims());
+
+            $claims = $token->getClaims();
+
+            return \App\Models\User::firstOrCreate(
+                ['uid'=>$claims['sub']],
+                ['email'=>$claims['email'],'photoURL'=>$claims['picture'],'displayName'=>$claims['name']]
+            );
         }
         catch (\Exception $e) {
-            return;
+            return null;
         }
     }
 }

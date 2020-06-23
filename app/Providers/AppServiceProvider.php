@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Firebase\Auth\Token\Verifier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->singleton(Verifier::class, function ($app) {
+            return new Verifier('daily-check-in-comento');
+        });
+
         Collection::macro('setAppends', function ($attributes) {
             return $this->map(function ($item) use ($attributes) {
                 return $item->setAppends($attributes);

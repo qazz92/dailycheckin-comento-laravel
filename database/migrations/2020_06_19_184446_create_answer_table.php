@@ -14,8 +14,8 @@ class CreateAnswerTable extends Migration
     {
         Schema::create('answer', function (Blueprint $table) {
             $table->id();
-            $table->integer('emotionId')->nullable();
-            $table->integer('userId');
+            $table->integer('emotion_id')->nullable();
+            $table->integer('user_id');
             $table->text('content');
             $table->string('uid')->nullable();
             $table->timestamps();
