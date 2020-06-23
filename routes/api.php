@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::get('/me','UserController@me');
+    Route::get('/user/me','UserController@me');
 
     Route::get('/emotion','EmotionController@list');
 
