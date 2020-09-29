@@ -1,0 +1,14 @@
+service: schoolvillain-api-docs
+
+provider:
+  name: aws
+  region: ap-northeast-2
+
+plugins:
+  - serverless-finch
+
+custom:
+  client:
+    bucketName: docs.villain.school
+    distributionFolder: .
+    bucketPolicyFile: policy.json

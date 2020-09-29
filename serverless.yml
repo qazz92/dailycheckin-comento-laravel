@@ -1,0 +1,120 @@
+service: dailycheckin
+
+provider:
+  name: aws
+  region: ap-northeast-2
+  runtime: provided
+  memorySize: 512
+  apiGateway:
+    # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-gzip-compression-decompression.html
+    minimumCompressionSize: 1024
+    binaryMediaTypes:
+      - '*/*'
+  environment:
+    SQS_QUEUE:
+      Ref: DailyCheckInQueue
+    # If you create the queue manually, the `SQS_QUEUE` variable can be defined like this:
+    # SQS_QUEUE: https://sqs.us-east-1.amazonaws.com/your-account-id/my-queue
+  iamRoleStatements:
+    # Allows our code to interact with SQS
+    - Effect: Allow
+      Action: [sqs:SendMessage, sqs:DeleteMessage]
+      Resource:
+        Fn::GetAtt: [ DailyCheckInQueue, Arn ]
+    - Effect: Allow
+      Action:
+        - ses:*
+      Resource: ['*']
+
+plugins:
+  - ./vendor/bref/bref
+
+package:
+  exclude:
+    - node_modules/**
+    - public/storage
+    - resources/assets/**
+    - storage/**
+    - tests/**
+    - .git/**
+
+
+functions:
+  website:
+    handler: public/index.php
+    timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+    layers:
+      - ${bref:layer.php-74-fpm}
+    events:
+      -   http: 'ANY /'
+      -   http: 'ANY /{proxy+}'
+      - schedule:
+          rate: rate(5 minutes)
+          input:
+            warmer: true
+    vpc:
+      securityGroupIds:
+        - sg-0ce6b39073f9c7d7b
+      subnetIds:
+        - subnet-0651ded7539e4255d
+        - subnet-0c542a07748ec40d5
+        - subnet-063e5a358a3881fa2
+  artisan:
+    handler: artisan
+    timeout: 120 # in seconds
+    layers:
+      - ${bref:layer.php-74} # PHP
+      - ${bref:layer.console} # The "console" layer
+#    events:
+#      - schedule:
+#          description: Running the Laravel Scheduler (schedule:run) each minute
+#          rate: rate(1 minute)
+#          input:
+#            cli: schedule:run
+    vpc:
+      securityGroupIds:
+        - sg-0ce6b39073f9c7d7b
+      subnetIds:
+        - subnet-0651ded7539e4255d
+        - subnet-0c542a07748ec40d5
+        - subnet-063e5a358a3881fa2
+  worker:
+    handler: worker.php
+    timeout: 29
+    layers:
+      - ${bref:layer.php-74}
+    events:
+      # Declares that our worker is triggered by jobs in SQS
+      - sqs:
+          arn:
+            Fn::GetAtt: [ SchoolvillainQueue, Arn ]
+          # If you create the queue manually, the line above could be:
+          # arn: 'arn:aws:sqs:us-east-1:1234567890:my_sqs_queue'
+          # Only 1 item at a time to simplify error handling
+          batchSize: 1
+    vpc:
+      securityGroupIds:
+        - sg-0ce6b39073f9c7d7b
+      subnetIds:
+        - subnet-0651ded7539e4255d
+        - subnet-0c542a07748ec40d5
+        - subnet-063e5a358a3881fa2
+
+resources:
+  Resources:
+    # The SQS queue
+    DailyCheckInQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: dailycheckin-${opt:stage , 'dev'}-queue
+        RedrivePolicy:
+          maxReceiveCount: 3 # jobs will be retried up to 3 times
+          # Failed jobs (after the retries) will be moved to the other queue for storage
+          deadLetterTargetArn:
+            Fn::GetAtt: [ DailyCheckInDeadLetterQueue, Arn ]
+    # Failed jobs will go into that SQS queue to be stored, until a developer looks at these errors
+    DailyCheckInDeadLetterQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: dailycheckin-${opt:stage , 'dev'}-dead-letter-queue
+        MessageRetentionPeriod: 1209600 # maximum retention: 14 days

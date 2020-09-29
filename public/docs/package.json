@@ -1,0 +1,14 @@
+{
+    "name": "docs",
+    "version": "1.0.0",
+    "description": "api docs",
+    "main": "index.html",
+    "scripts": {
+        "deploy": "serverless client deploy"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "serverless-finch": "^2.6.0"
+    }
+}

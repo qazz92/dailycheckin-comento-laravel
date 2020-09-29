@@ -16,7 +16,7 @@ class CreateAnswerTable extends Migration
             $table->id();
             $table->integer('emotion_id')->nullable();
             $table->integer('user_id');
-            $table->text('content');
+            $table->longText('content');
             $table->string('uid')->nullable();
             $table->timestamps();
         });

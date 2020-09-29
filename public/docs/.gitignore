@@ -1,0 +1,6 @@
+*
+!serverless.yml
+!package.json
+!package-lock.json
+!policy.json
+!.gitignore
