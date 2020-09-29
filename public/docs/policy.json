@@ -7,7 +7,7 @@
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:*",
-            "Resource": "arn:aws:s3:::docs.villain.school/*",
+            "Resource": "arn:aws:s3:::daily.docs.comento.kr/*",
             "Condition": {
                 "IpAddress": {
                     "aws:SourceIp": [

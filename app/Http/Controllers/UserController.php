@@ -45,7 +45,7 @@ class UserController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/user/me
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/user/me
      */
     public function me(Request $request) {
         return response($request->user());

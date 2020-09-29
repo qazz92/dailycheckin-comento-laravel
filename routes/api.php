@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 */
 
 
+Route::get('',function () {
+    echo "Hello, World!";
+});
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user/me','UserController@me');

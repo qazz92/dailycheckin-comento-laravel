@@ -40,7 +40,7 @@ class CommentController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/comment
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/comment
      */
     public function create(Request $request)
     {
@@ -83,7 +83,7 @@ class CommentController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/comment
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/comment
      */
     public function update(Request $request)
     {
@@ -131,7 +131,7 @@ class CommentController extends Controller
      *       "message": "니꺼아님!"
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/comment
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/comment
      */
     public function delete(Request $request)
     {

@@ -43,7 +43,7 @@ class EmotionController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/emotion
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/emotion
      */
     public function list() {
         return response()->json(Emotion::all());

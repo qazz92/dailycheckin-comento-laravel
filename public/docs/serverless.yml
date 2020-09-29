@@ -9,6 +9,6 @@ plugins:
 
 custom:
   client:
-    bucketName: docs.villain.school
+    bucketName: daily.docs.comento.kr
     distributionFolder: .
     bucketPolicyFile: policy.json

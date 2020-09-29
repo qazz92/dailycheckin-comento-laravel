@@ -40,7 +40,7 @@ class LikeController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/like
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/like
      */
     public function create(Request $request)
     {
@@ -85,7 +85,7 @@ class LikeController extends Controller
      *       "message": "니꺼아님!"
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/like
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/like
      */
     public function delete(Request $request)
     {

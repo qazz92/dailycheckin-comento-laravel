@@ -69,7 +69,7 @@ class AnswerController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/answer
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/answer
      */
     public function list(Request $request)
     {
@@ -210,7 +210,7 @@ class AnswerController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/answer/1
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/answer/1
      */
     public function show($id)
     {
@@ -260,7 +260,7 @@ class AnswerController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/answer
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/answer
      */
     public function create(Request $request)
     {
@@ -304,7 +304,7 @@ class AnswerController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/answer
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/answer
      */
     public function update(Request $request)
     {
@@ -353,7 +353,7 @@ class AnswerController extends Controller
      *     {
      *       "message": "니꺼아님!"
      *     }
-     * @apiSampleRequest https://daily.api.comento.info/api/answer
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/answer
      */
     public function delete(Request $request)
     {

@@ -64,7 +64,7 @@ class NoticeController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/notice
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/notice
      */
     public function list(Request $request) {
         $request->validate([
@@ -106,7 +106,7 @@ class NoticeController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/notice/1
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/notice/1
      */
     public function show($id) {
 
@@ -140,7 +140,7 @@ class NoticeController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/notice
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/notice
      */
     public function create(Request $request)
     {
@@ -186,7 +186,7 @@ class NoticeController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/notice
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/notice
      */
     public function update(Request $request)
     {
@@ -232,7 +232,7 @@ class NoticeController extends Controller
      *       "message": "Unauthenticated."
      *     }
      *
-     * @apiSampleRequest https://daily.api.comento.info/api/notice
+     * @apiSampleRequest https://daily.devapi.comento.kr/api/notice
      */
     public function delete(Request $request)
     {
